@@ -1,3 +1,18 @@
+<?php
+
+$errorMessage = [
+    "Fichier non présent",
+    "Erreur lors du chargement du fichier",
+    "Le type de fichier n'est pas valide",
+    "La taille du fichier doit être de 3Mo max.",
+    "Le fichier a bien été envoyé",
+];
+
+if(isset($_GET['error'])){
+    echo "<div>" . $errorMessage[(int)$_GET['error']] . "</div>";
+}
+
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,13 +29,24 @@
             <p>Taille max. de 3Mo</p>
             <input type="file" name="userFile" id="idUserFile" accept=".jpg, .jpeg, .png">
         </div>
-
-
         <input type="submit">
     </form>
+
+    <?php
+        if(file_exists('file.json')){
+            $picture = json_decode(file_get_contents('file.json'));
+            foreach ($picture as $item){?>
+                <div>
+                    <img src="uploads/<?=$item?>" width="100px" height="auto">
+                </div>
+                <?php
+            }
+        }
+    ?>
 </body>
 </html>
 <?php
+
 
 /**
  * 1. Créez un formulaire classique contenant un champs input de type file
